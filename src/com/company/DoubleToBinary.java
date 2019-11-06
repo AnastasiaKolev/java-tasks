@@ -3,6 +3,13 @@ package com.company;
 import java.util.Scanner;
 
 public class DoubleToBinary {
+    /**
+     * Дано вещественное число от 0 до 1 (например 0.75).
+     * Напишите программу переводящую его в бинарный вид.
+     * Число передается как тип double в виде 0.75.
+     * Если число не помещается в 32 бита,
+     * функция возвращает ошибку.
+     */
     private static String doubleToBinary(double num) {
         if (num >= 1 || num <= 0) {
             return "Error";
