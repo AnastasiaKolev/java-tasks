@@ -1,7 +1,5 @@
 package com.company;
 
-
-import java.util.Arrays;
 import java.util.Random;
 
 public class FindPoisonedBottle {
@@ -18,7 +16,8 @@ public class FindPoisonedBottle {
         // check if bottles max number fits in 10 bits (amount of indicators)
         int capacity = (int) Math.pow( 2, indicators );
         if (bottles > capacity) {
-            return "The tests will take more than a week";
+            int weeks = bottles/capacity;
+            return "The tests will take " + weeks + " weeks!";
         }
 
         // generate random poisoned bottle
@@ -77,7 +76,7 @@ public class FindPoisonedBottle {
 
     public static void main(String[] args) {
         //given
-        int bottles = 1000;
+        int bottles = 10000;
         int indicators = 10;
 
         //run
