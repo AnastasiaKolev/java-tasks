@@ -17,7 +17,7 @@ public class FindPoisonedBottle {
         int capacity = (int) Math.pow( 2, indicators );
         if (bottles > capacity) {
             int weeks = bottles/capacity;
-            return "The tests will take " + weeks + " weeks!";
+            return "The tests will take " + (++weeks) + " weeks!";
         }
 
         // generate random poisoned bottle
@@ -76,7 +76,7 @@ public class FindPoisonedBottle {
 
     public static void main(String[] args) {
         //given
-        int bottles = 10000;
+        int bottles = 1000;
         int indicators = 10;
 
         //run
