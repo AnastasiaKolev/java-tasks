@@ -13,15 +13,22 @@ public class CableNetwork {
      * Следующие K строк содержат пары чисел 0 < u, v ≤ N - номера компьютеров, уже соединенных хэлпдеском.
      * Следующие M строк содержат тройки чисел 0 < u, v ≤ N и 0 < p ≤ 10^9 - номера компьютеров,
      * которые админы могут соединить при помощи кабеля стоимостью p.
+     * ex.:
+     * 5 0 4
+     * 1 3 1
+     * 2 4 8
+     * 1 4 1
+     * 5 3 4
      */
-    static class Edge {
-        int v1, v2;
-        int weight;
 
-        Edge(int v1, int v2, int weight) {
-            this.v1 = v1;
-            this.v2 = v2;
-            this.weight = weight;
+    static class Edge {
+        int c1, c2;
+        int price;
+
+        Edge(int c1, int c2, int price) {
+            this.c1 = c1;
+            this.c2 = c2;
+            this.price = price;
         }
     }
 
@@ -39,7 +46,7 @@ public class CableNetwork {
         }
 
         void kruskalMST() {
-            PriorityQueue<Edge> pq = new PriorityQueue<>( allEdges.size(), Comparator.comparingInt( o -> o.weight ) );
+            PriorityQueue<Edge> pq = new PriorityQueue<>( allEdges.size(), Comparator.comparingInt( o -> o.price ) );
 
             //add all the edges to priority queue, //sort the edges on weights
             pq.addAll( allEdges );
@@ -57,8 +64,8 @@ public class CableNetwork {
             while (index < vertices - 1) {
                 Edge edge = pq.remove();
                 //check if adding this edge creates a cycle
-                int x_set = find( parent, edge.v1 );
-                int y_set = find( parent, edge.v2 );
+                int x_set = find( parent, edge.c1 );
+                int y_set = find( parent, edge.c2 );
 
                 if (x_set != y_set) {
                     //add it to our final result
@@ -94,10 +101,13 @@ public class CableNetwork {
         }
 
         void printGraph(ArrayList<Edge> edgeList) {
-            long answer = 1;
+            long answer = 0;
             for (Edge edge : edgeList) {
-                if (edge.weight != 0) {
-                    answer *= edge.weight % (Math.pow( 2, 31 ) - 1);
+                if (edge.price != 0) {
+                    if (answer == 0) {
+                        answer = 1;
+                    }
+                    answer *= edge.price % (Math.pow( 2, 31 ) - 1);
                 }
             }
 
@@ -109,14 +119,7 @@ public class CableNetwork {
 
     public static void main(String[] args) {
         //given
-        String input = "5 0 6\n" +
-                "1 3 1\n" +
-                "2 4 8\n" +
-                "1 4 1\n" +
-                "1 2 10\n" +
-                "4 1 10\n" +
-                "5 3 4";
-        Scanner scanner = new Scanner( input );
+        Scanner scanner = new Scanner( System.in );
         String[] inputArr = scanner.nextLine().split( " " );
 
         int N = Integer.valueOf( inputArr[0] );
@@ -153,36 +156,26 @@ public class CableNetwork {
         if (K > 0) {
             for (int i = 0; i < K; i++) {
                 String[] mapPair = scanner.nextLine().split( " " );
-                int v1 = Integer.valueOf( mapPair[0] );
-                int v2 = Integer.valueOf( mapPair[1] );
-                graph.addEgde( v1, v2, 0 );
-                compSet.add( v1 );
-                compSet.add( v2 );
+                int c1 = Integer.valueOf( mapPair[0] );
+                int c2 = Integer.valueOf( mapPair[1] );
+                graph.addEgde( c1, c2, 0 );
+                compSet.add( c1 );
+                compSet.add( c2 );
             }
         }
 
         for (int i = 0; i < M; i++) {
             String[] mapPair = scanner.nextLine().split( " " );
-            int v1 = Integer.valueOf( mapPair[0] );
-            int v2 = Integer.valueOf( mapPair[1] );
-            int w = Integer.valueOf( mapPair[2] );
-            graph.addEgde( v1, v2, w );
-            compSet.add( v1 );
-            compSet.add( v2 );
+            int c1 = Integer.valueOf( mapPair[0] );
+            int c2 = Integer.valueOf( mapPair[1] );
+            int price = Integer.valueOf( mapPair[2] );
+            graph.addEgde( c1, c2, price );
+            compSet.add( c1 );
+            compSet.add( c2 );
         }
 
         if (compSet.size() != N) {
             System.out.println( "-1" );
-            System.exit( 0 );
-        }
-
-        if (compSet.size() == 2 && M == 1) {
-            System.out.println( graph.allEdges.get( 0 ).weight );
-            System.exit( 0 );
-        }
-
-        if (K > 0 && M == 0) {
-            System.out.println( "0" );
             System.exit( 0 );
         }
 
