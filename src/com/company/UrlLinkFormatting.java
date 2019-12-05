@@ -2,6 +2,13 @@ package com.company;
 
 public class UrlLinkFormatting {
 
+    /**
+     * Напишите функцию replaceSpaces для замены всех пробелов в строке на %20. На
+     * вход функции подается два параметра:
+     * 1. Строка, содержащая достаточно места для хранения всех %20
+     * 2. Реальная длинна строки, будто в ней не выделено место для %20
+     */
+
     //Url link forming: time O(N), memory O(1)
     public static void main(String[] args) {
         String string = " My url consists of 6 words! ";
@@ -20,8 +27,8 @@ public class UrlLinkFormatting {
             reserved.append( "_" );
         }
 
-        System.out.println("Forming a string with reserved spaces: \n" + spacesCount + "\tspaces added. " +
-                "\nNEW string: \t" + reserved.toString());
+        System.out.println("Forming a string with reserved spaces: \t" + spacesCount
+                + "\tspaces added.\n" + reserved.toString());
 
         char[] res = reserved.toString().toCharArray();
         int lastPos = res.length - 1;
@@ -57,8 +64,9 @@ public class UrlLinkFormatting {
 
         }
 
-        for (int i = 0; i < res.length; i++) {
-            System.out.print(res[i]);
+        System.out.println( "New string:" );
+        for (char re : res) {
+            System.out.print( re );
         }
     }
 }
